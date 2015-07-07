@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/varNinja/node-raspberrypi/issues"
   },
-  "homepage": "https://github.com/varNinja/node-raspberrypi"
+  "homepage": "https://github.com/varNinja/node-raspberrypi",
+  "dependencies": {
+    "blessed": "^0.1.7"
+  }
 }
