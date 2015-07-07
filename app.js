@@ -1,4 +1,4 @@
-var blessed = require('../');
+var blessed = require('blessed');
 
 // Create a screen object.
 var screen = blessed.screen();
