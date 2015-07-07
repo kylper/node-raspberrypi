@@ -4,9 +4,9 @@ var blessed = require('blessed');
 var screen = blessed.screen();
 
 // Create a box perfectly centered horizontally and vertically.
-var box = blessed.box({
-  top: 'center',
-  left: 'center',
+var boxOne = blessed.box({
+  top: 0,
+  left: 0,
   width: '50%',
   height: '50%',
   content: 'Hello {bold}world{/bold}!',
@@ -16,7 +16,51 @@ var box = blessed.box({
   },
   style: {
     fg: 'white',
-    bg: 'magenta',
+    bg: 100,
+    border: {
+      fg: '#ffffff'
+    },
+    hover: {
+      bg: 'green'
+    }
+  }
+});
+
+var boxTwo = blessed.box({
+  top: 0,
+  left: '50%',
+  width: '50%',
+  height: '50%',
+  content: 'Hello {bold}world{/bold}!',
+  tags: true,
+  border: {
+    type: 'line'
+  },
+  style: {
+    fg: 'white',
+    bg: 6,
+    border: {
+      fg: '#ffffff'
+    },
+    hover: {
+      bg: 'green'
+    }
+  }
+});
+
+var boxThree = blessed.box({
+  top: '50%',
+  left: 0,
+  width: '50%',
+  height: '50%',
+  content: 'Hello {bold}world{/bold}!',
+  tags: true,
+  border: {
+    type: 'line'
+  },
+  style: {
+    fg: 'white',
+    bg: 1,
     border: {
       fg: '#ffffff'
     },
@@ -27,21 +71,9 @@ var box = blessed.box({
 });
 
 // Append our box to the screen.
-screen.append(box);
-
-// If our box is clicked, change the content.
-box.on('click', function(data) {
-  box.setContent('{center}Some different {red-fg}content{/red-fg}.{/center}');
-  screen.render();
-});
-
-// If box is focused, handle `enter` and give us some more content.
-box.key('enter', function() {
-  box.setContent('{right}Even different {black-fg}content{/black-fg}.{/right}\n');
-  box.setLine(1, 'bar');
-  box.insertLine(1, 'foo');
-  screen.render();
-});
+screen.append(boxOne);
+screen.append(boxTwo);
+screen.append(boxThree);
 
 // Quit on Escape, q, or Control-C.
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
@@ -49,7 +81,7 @@ screen.key(['escape', 'q', 'C-c'], function(ch, key) {
 });
 
 // Focus our element.
-box.focus();
+boxOne.focus();
 
 // Render the screen.
 screen.render();
