@@ -1,87 +1,53 @@
-var blessed = require('blessed');
+var blessed = require('blessed'),
+contrib = require('blessed-contrib');
 
-// Create a screen object.
 var screen = blessed.screen();
+var grid = new contrib.grid({rows: 12, cols: 12, screen: screen});
 
-// Create a box perfectly centered horizontally and vertically.
-var boxOne = blessed.box({
-  top: 0,
-  left: 0,
-  width: '50%',
-  height: '50%',
-  content: 'Hello {bold}world{/bold}!',
-  tags: true,
-  border: {
-    type: 'line'
-  },
-  style: {
-    fg: 'white',
-    bg: 100,
-    border: {
-      fg: '#ffffff'
-    },
-    hover: {
-      bg: 'green'
-    }
-  }
+/* Element Draw */
+
+var header = grid.set(0, 3, 2, 6, contrib.lcd, {
+  color: 'red',
+  elements: 9
 });
 
-var boxTwo = blessed.box({
-  top: 0,
-  left: '50%',
-  width: '50%',
-  height: '50%',
-  content: 'Hello {bold}world{/bold}!',
-  tags: true,
-  border: {
-    type: 'line'
-  },
-  style: {
-    fg: 'white',
-    bg: 6,
-    border: {
-      fg: '#ffffff'
-    },
-    hover: {
-      bg: 'green'
-    }
-  }
+var time = grid.set(0, 0, 2, 3, contrib.lcd, {
+  color: 'red',
+  elements: 8
 });
 
-var boxThree = blessed.box({
-  top: '50%',
-  left: 0,
-  width: '50%',
-  height: '50%',
-  content: 'Hello {bold}world{/bold}!',
-  tags: true,
-  border: {
-    type: 'line'
-  },
-  style: {
-    fg: 'white',
-    bg: 1,
-    border: {
-      fg: '#ffffff'
-    },
-    hover: {
-      bg: 'green'
-    }
-  }
-});
 
-// Append our box to the screen.
-screen.append(boxOne);
-screen.append(boxTwo);
-screen.append(boxThree);
+/* Element Content */
+var date = new Date();
+var theHour = date.getHours();
+if (theHour < 10){
+  theHour = "0" + theHour.toString();
+} else {
+  theHour = theHour.toString();
+}
+var theMinute = date.getMinutes().toString();
+var theSecond = date.getSeconds().toString();
+
+header.setDisplay('DASHBOARD');
+time.setDisplay(theHour + '-' + theMinute + '-' + theSecond);
+
+
+/*
+var map = grid.set(0, 0, 4, 4, contrib.map, {label: 'World Map'});
+var box = grid.set(4, 0, 4, 4, blessed.box, {label: 'My Box'});
+var box1 = grid.set(8, 0, 4, 4, blessed.box, {label: 'My Box'});
+
+var box2 = grid.set(0, 4, 4, 4, blessed.box, {label: 'My Box'});
+var box3 = grid.set(4, 4, 4, 4, blessed.box, {label: 'My Box'});
+var box4 = grid.set(8, 4, 4, 4, blessed.box, {label: 'My Box'});
+*/
+
+
 
 // Quit on Escape, q, or Control-C.
 screen.key(['escape', 'q', 'C-c'], function(ch, key) {
   return process.exit(0);
 });
-
-// Focus our element.
-boxOne.focus();
 
 // Render the screen.
 screen.render();

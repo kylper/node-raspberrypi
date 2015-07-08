@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/varNinja/node-raspberrypi",
   "dependencies": {
-    "blessed": "^0.1.7"
+    "blessed": "^0.1.7",
+    "blessed-contrib": "^2.2.0"
   }
 }
